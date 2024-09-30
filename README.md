@@ -1,3 +1,7 @@
+Pra rodar o React - iniciar o projeto
+
+npm run dev
+
 #Certificado Component
 Este componente React é responsável pela gestão de certificados de autenticidade. Ele permite que o usuário crie, atualize, pesquise, e apague certificados, além de gerar um PDF para cada certificado registrado.
 
