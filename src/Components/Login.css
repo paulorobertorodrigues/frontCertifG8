@@ -1,0 +1,12 @@
+  
+/* Styles/Certificado.css ou outro arquivo CSS */
+@media (max-width: 768px) {
+    .loginForm {
+        width: 90%;
+        padding: 15px;
+    }
+  
+    .loginPage {
+        padding: 10px;
+    }
+  }

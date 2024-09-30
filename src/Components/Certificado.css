@@ -1,0 +1,157 @@
+.custom-container {
+    /* text-align: right;  Alinha o texto à esquerda */
+    margin-left: 50px; /* Define uma margem de 50px à esquerda */
+  }
+  
+  .custom-margin {
+    margin: 0; /* Remove todas as margens internas */
+  }
+  
+  .mb-0 {
+    margin-bottom: 0; /* Remove o espaçamento entre as linhas */
+  }
+  
+
+  @page {
+  size: A4;
+  margin: 20mm;
+}
+
+#todo {
+  width: 100%;
+  height: 100%;
+  padding: 10mm;
+  background: white;
+  border-radius: 5px;
+
+}
+
+#todo p {
+    font-size: 14px;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+#logo-certified {
+    margin-left: 0px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+ 
+
+/* Tablets (portrait and landscape) */
+@media screen and (max-width: 1024px) {
+  .custom-container {
+    margin-left: 30px;
+  }
+
+  #todo {
+    padding: 8mm;
+  }
+
+  #todo p {
+    font-size: 13px;
+  }
+
+  #logo-certified {
+    margin-top: 0px;
+  }
+}
+
+/* Smartphones (landscape) */
+@media screen and (max-width: 768px) {
+  .custom-container {
+    margin-left: 20px;
+  }
+
+  #todo {
+    padding: 6mm;
+  }
+
+  #todo p {
+    font-size: 12px;
+  }
+
+  #logo-certified {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+}
+
+/* Smartphones (portrait) */
+@media screen and (max-width: 360px) {
+  .custom-container {
+    margin-left: 10px;
+  }
+
+  #todo {
+    padding: 5mm;
+  }
+
+  #todo p {
+    font-size: 11px;
+  }
+
+  #logo-certified {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .container {
+    padding: 5px;
+  }
+}
+
+
+
+
+/* Ajustes de responsividade */
+@media (max-width: 430px) {
+.table-responsive-md {
+    width: 100%; /* Faz a tabela ocupar 100% da largura */
+    font-size: 16px;
+}
+
+.table thead {
+    display: none; /* Esconde o cabeçalho da tabela em telas muito pequenas */
+}
+
+.table tbody tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+}
+
+.table tbody tr td {
+    display: flex;
+    justify-content:center; /* Espaço justificado entre rótulos e valores */
+    align-items: center;
+    padding: 5px 0 0 10px;
+}
+
+.table tbody tr td::before {
+    content: attr(data-label); /* Mostra o nome da coluna como label */
+    flex-basis: 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn-group {
+    flex-direction: column;
+    gap: 5px;
+}
+
+.btn-group .btn {
+    width: 120%; /* Botões ocupam toda a largura */
+    height: 20%;
+
+}
+}
