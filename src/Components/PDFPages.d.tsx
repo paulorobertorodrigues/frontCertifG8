@@ -1,4 +1,7 @@
-declare module '../src/Components/PDFPages' {
+import '../Components/PDFPages.d';
+
+
+declare module '../Components/PDFPages.d' {
     export interface PDFPageProps {
         title: string;
         content: string;

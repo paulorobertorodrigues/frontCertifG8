@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts"],"version":"5.6.2"}
+{"root":["./src/declarations.d.ts","./src/vite-env.d.ts","./src/@types/qrcode.react.d.ts","./src/@types/web-vitals.d.ts","./src/components/html2pdf.d.ts"],"version":"5.6.2"}
