@@ -2,6 +2,131 @@ Pra rodar o React - iniciar o projeto
 
 npm run dev
 
+
+QRCodePDF - Frontend
+Este é o frontend da aplicação QRCodePDF, que permite a visualização e geração de certificados em PDF utilizando QR codes. A aplicação é construída com React e utiliza várias bibliotecas para lidar com formulários, exibição de dados e geração de PDF.
+
+Tecnologias Utilizadas
+React: Biblioteca para construção de interfaces de usuário.
+React Router: Gerenciamento de rotas no React.
+Bootstrap: Estilização da interface com componentes prontos e responsivos.
+Axios: Realização de requisições HTTP para a API backend.
+QRCode.react: Geração de QR Codes dentro da aplicação React.
+SweetAlert2: Exibição de alertas e notificações amigáveis.
+html2pdf.js: Geração de PDFs a partir do HTML da aplicação.
+Estrutura do Projeto
+bash
+Copiar código
+root/
+│
+├── src/
+│   ├── Components/
+│   │   ├── Login.jsx         # Componente de login de usuário
+│   │   ├── Certificado.jsx   # Componente que gera certificados
+│   │   ├── PDFPage.jsx       # Componente que renderiza um PDF com QR code
+│   │
+│   ├── App.js                # Arquivo principal que define as rotas
+│   ├── index.js              # Ponto de entrada da aplicação
+│   └── App.css               # Estilos globais
+│
+├── public/                   # Arquivos estáticos (favicon, index.html)
+├── .env                      # Arquivo de variáveis de ambiente
+├── package.json              # Dependências e scripts do projeto
+└── README.md                 # Documentação do projeto
+Configuração
+Pré-requisitos
+Antes de começar, certifique-se de ter os seguintes softwares instalados:
+
+Node.js (v14 ou superior)
+npm ou yarn
+Instalação
+Clone o repositório:
+bash
+Copiar código
+git clone https://github.com/paulorobertorodrigues/QRCodePdf-FrontEnd.git
+Navegue até o diretório do projeto:
+bash
+Copiar código
+cd QRCodePdf-FrontEnd
+Instale as dependências:
+bash
+Copiar código
+npm install
+# ou
+yarn install
+Crie o arquivo .env para configurar a URL da API backend:
+bash
+Copiar código
+REACT_APP_API_URL=http://localhost:3000
+Inicie o servidor de desenvolvimento:
+bash
+Copiar código
+npm run dev
+# ou
+yarn dev
+O frontend estará disponível em http://localhost:5173.
+
+Funcionalidades
+1. Login de Administradores
+A aplicação oferece uma página de login onde os administradores podem inserir suas credenciais para acessar a área protegida do sistema.
+
+Rota: /
+Componente: Login
+2. Geração de Certificados
+Após o login, os administradores podem gerar certificados para empregados, com informações personalizadas e um QR code que redireciona para a página do PDF do certificado.
+
+Rota: /certificado
+Componente: Certificado
+3. Visualização de Certificados em PDF
+Os certificados são renderizados em formato PDF diretamente no navegador, com a opção de download. O QR code no certificado facilita a verificação de autenticidade.
+
+Rota: /pdf/:codigo
+Componente: PDFPage
+Como Usar
+1. Login
+Acesse a rota principal / e insira as credenciais do administrador.
+Se as credenciais estiverem corretas, você será redirecionado para a página de geração de certificados.
+2. Geração de Certificado
+Insira os dados requeridos no formulário de geração de certificados.
+Clique no botão "Gerar Certificado". O certificado será exibido em uma página com opção de download em PDF.
+3. Visualização de Certificado
+A partir do certificado gerado, o QR code pode ser escaneado para redirecionar à página de visualização do PDF.
+Scripts Disponíveis
+No diretório do projeto, você pode executar os seguintes comandos:
+
+npm run dev
+Executa a aplicação em modo de desenvolvimento.<br> Abra http://localhost:5173 para ver no navegador.
+
+npm run build
+Constrói o projeto para produção na pasta dist.<br> A aplicação estará otimizada e pronta para ser implementada.
+
+npm run preview
+Executa a aplicação gerada em modo de produção para teste local.
+
+Dependências Importantes
+axios: Para fazer requisições HTTP ao backend.
+bootstrap: Framework CSS para estilização.
+qrcode.react: Gera QR Codes dentro dos componentes React.
+sweetalert2: Para notificações e alertas personalizados.
+html2pdf.js: Converte a página HTML para PDF, possibilitando o download.
+Funcionalidades Futuras
+Melhorias na interface do usuário para a geração de certificados.
+Adição de novos campos e validações para os dados dos certificados.
+Integração com outras APIs para verificação e armazenamento em nuvem.
+Contribuição
+Se você quiser contribuir com este projeto:
+
+Faça um fork do repositório.
+Crie uma nova branch: git checkout -b minha-feature
+Faça as alterações e adicione os commits: git commit -m 'Adicionando minha feature'
+Envie para o seu repositório fork: git push origin minha-feature
+Crie um pull request no repositório original.
+Autor
+Paulo Roberto Rodrigues
+
+GitHub
+https://github.com/paulorobertorodrigues
+
 #Certificado Component
 Este componente React é responsável pela gestão de certificados de autenticidade. Ele permite que o usuário crie, atualize, pesquise, e apague certificados, além de gerar um PDF para cada certificado registrado.
 
