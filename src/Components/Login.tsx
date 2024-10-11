@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import './style.css';
+import '../assets/style.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
-import './Login.css'
+// import '../App.css';
+// import './Login.css';
+
+import backgroundImage from '../assets/seguranca.webp';
+
 import.meta.env.VITE_API_URL;
 
 
@@ -34,7 +37,13 @@ const Login = () => {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100 loginPage">
+        <div className="d-flex justify-content-center align-items-center vh-100 loginPage"
+        style={{
+            backgroundImage: `linear-gradient(rgba(11,11,11,0.5), rgba(10,10,10,0.5)), url(${backgroundImage})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 120%',
+          }}>
             <div className="p-3 rounded border loginForm" style={{ width: '100%', maxWidth: '400px' }}>
                 <div className="text-warning">
                     {error && error}
