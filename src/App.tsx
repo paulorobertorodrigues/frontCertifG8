@@ -14,7 +14,6 @@ function App() {
         <Route path='/' element={<Login />}></Route>
         <Route path='/certificado' element={<Certificado />}></Route>
         <Route path="/pdf/:codigo" element={<PDFPage />}></Route>
-        <Route path="/certificados/:id" element={<PDFPage />} />
       </Routes>
     </BrowserRouter>
   )
