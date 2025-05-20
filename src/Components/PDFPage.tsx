@@ -16,7 +16,7 @@ function PDFPage() {
   const qrLink = `${baseUrl}/certificados/${id}`; // URL que será usada no QR code
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/certificados/${id}`)
+    fetch(`${process.env.VITE_API_URL}/api/certificados/${id}`)
       .then(res => res.json())
       .then(data => {
         setCertificado(data);
