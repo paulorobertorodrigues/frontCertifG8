@@ -11,7 +11,7 @@ import logoG8 from '../Images/logo_g8.png';
 import certifiedLogo from '../Images/certified.png';
 
 
-const baseUrl = process.env.REACT_APP_BASE_URL; {/*Importar a url do frontend domínio */}
+const baseUrl = process.env.VITE_API_URL; {/*Importar a url do frontend domínio */}
 
 
 function PDFPage() {
