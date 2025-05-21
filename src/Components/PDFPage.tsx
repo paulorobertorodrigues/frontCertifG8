@@ -1,25 +1,44 @@
+// import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Certificado';
 
-
-
 import QRCode from "react-qr-code";
 
 import html2pdf from 'html2pdf.js';
+// import { QRCodeCanvas } from 'qrcode.react';
+// import { QRCode } from 'qrcode.react';
 import logoG8 from '../Images/logo_g8.png';
 import certifiedLogo from '../Images/certified.png';
-
-
-const baseUrl = process.env.REACT_APP_BASE_URL; {/*Importar a url do frontend domínio */}
-
 
 function PDFPage() {
   const location = useLocation();
   const { id } = useParams(); // Captura o id ou codigo da URL
   const { data, revisao, codigo, validade, responsavel, registro } = location.state || {};
 
- 
+  // const generatePDF = () => {
+  //   const element = document.getElementById('todo');
+    
+  //   const button = document.getElementById('pdf-button');
+  //   button.style.display = 'none'; // Esconde o botão durante a geração do PDF
+
+  //   html2pdf()
+  //     .from(element)
+  //     .set({
+  //       margin: 1,
+  //       filename: `certificado-${codigo || id}.pdf`,
+  //       image: { type: 'jpeg', quality: 0.98 },
+  //       html2canvas: { scale: 2 },
+  //       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+  //     })
+  //     .save()
+  //     .finally(() => {
+  //       button.style.display = 'block'; // Mostra o botão novamente após a geração
+  //     });
+  // };
+
+
+
   const generatePDF = () => {
     const element = document.getElementById('todo');
     
@@ -46,6 +65,10 @@ function PDFPage() {
   };
   
 
+
+
+
+
   const currentUrl = window.location.href; // URL atual da página com o ID
 
   return (
@@ -55,14 +78,11 @@ function PDFPage() {
 
           <img src={logoG8} width="200" height="100" alt="Certified Logo" />
 
-     
-            {/*ler QRcode */}
-          <QRCode value={`http://zsowwk0g0g84s00kg0g04g4c.82.25.75.74.sslip.io/pdf/${codigo}`} size={100} className="float-right"/>
+
+          <QRCode value={currentUrl} size={100} className="float-right" /> {/* QR code para a URL atual */}
 
 
-         {/* <QRCode value={currentUrl} size={100} className="float-right" />*/} {/* QR code para a URL atual */}
 
-          
 
         </div>
         <div className="d-flex justify-content-center m-4">
@@ -71,10 +91,10 @@ function PDFPage() {
         <div className="container text-center">
           <div className="row row-cols-2">
             <div className="col">
-              <p>Data da Elaboração do Documento <br /><strong>{new Date(`${data}`).toLocaleDateString('pt-BR')}</strong></p>
+              <p>Data da Elaboração do Documento <br /><strong>{new Date(data).toLocaleDateString('pt-BR')}</strong></p>
             </div>
             <div className="col">
-              <p>Revisão do Documento <br /><strong>{`${revisao}`}</strong></p>
+              <p>Revisão do Documento <br /><strong>{revisao}</strong></p>
             </div>
           </div>
         </div>
