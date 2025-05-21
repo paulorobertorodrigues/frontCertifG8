@@ -57,7 +57,7 @@ function PDFPage() {
 
      
             {/*ler QRcode */}
-          <QRCode value={`${baseUrl}/certificado/${codigo}`} size={100} />
+          <QRCode value={`${baseUrl}/pdf/${codigo}`} size={100} />
 
 
          {/* <QRCode value={currentUrl} size={100} className="float-right" />*/} {/* QR code para a URL atual */}
