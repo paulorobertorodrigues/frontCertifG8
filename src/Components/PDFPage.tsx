@@ -57,7 +57,7 @@ function PDFPage() {
 
      
             {/*ler QRcode */}
-          <QRCode value={`http://zsowwk0g0g84s00kg0g04g4c.82.25.75.74.sslip.io/certificado/${codigo}`} size={100} className="float-right"/>
+          <QRCode value={`http://zsowwk0g0g84s00kg0g04g4c.82.25.75.74.sslip.io/pdf/${codigo}`} size={100} className="float-right"/>
 
 
          {/* <QRCode value={currentUrl} size={100} className="float-right" />*/} {/* QR code para a URL atual */}
