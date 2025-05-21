@@ -14,6 +14,8 @@ function App() {
         <Route path='/' element={<Login />}></Route>
         <Route path='/certificado' element={<Certificado />}></Route>
         <Route path="/pdf/:codigo" element={<PDFPage />}></Route>
+        <Route path="/certificado/:codigo" element={<PDFPage />}></Route> {/* Ler QR code*/}
+
       </Routes>
     </BrowserRouter>
   )
