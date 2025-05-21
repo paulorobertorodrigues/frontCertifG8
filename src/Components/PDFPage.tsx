@@ -3,7 +3,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Certificado';
 
-import QRCode from "react-qr-code";
+import QRCodeCertificado from '../Components/QRCodeCertificado';
+
+
+
+//import QRCode from "react-qr-code";
 
 import html2pdf from 'html2pdf.js';
 // import { QRCodeCanvas } from 'qrcode.react';
@@ -79,7 +83,10 @@ function PDFPage() {
           <img src={logoG8} width="200" height="100" alt="Certified Logo" />
 
 
-          <QRCode value={currentUrl} size={100} className="float-right" /> {/* QR code para a URL atual */}
+          {/*<QRCode value={currentUrl} size={100} className="float-right" />*/} {/* QR code para a URL atual */}
+
+              <QRCodeCertificado codigo={codigo || id} />
+
 
 
 
