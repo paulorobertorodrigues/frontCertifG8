@@ -71,10 +71,10 @@ function PDFPage() {
         <div className="container text-center">
           <div className="row row-cols-2">
             <div className="col">
-              <p>Data da Elaboração do Documento <br /><strong>{new Date(data).toLocaleDateString('pt-BR')}</strong></p>
+              <p>Data da Elaboração do Documento <br /><strong>{new Date(`${data}`).toLocaleDateString('pt-BR')}</strong></p>
             </div>
             <div className="col">
-              <p>Revisão do Documento <br /><strong>{revisao}</strong></p>
+              <p>Revisão do Documento <br /><strong>{`${revisao}`}</strong></p>
             </div>
           </div>
         </div>
