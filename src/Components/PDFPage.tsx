@@ -113,7 +113,9 @@ const generatePDF = async () => {
 
 
 
-const currentUrl = window.location.href; // URL atual da página com o ID
+// const currentUrl = window.location.href; // URL atual da página com o ID
+const currentUrl = `${window.location.origin}/certificado/${codigo}`;
+
 
   return (
     <div className="container" id="todo">
@@ -121,8 +123,9 @@ const currentUrl = window.location.href; // URL atual da página com o ID
         <div className="card-header d-flex justify-content-between align-items-center">
 
           <img src={logoG8} width="200" height="100" alt="Certified Logo" />
+          <QRCode value={`${window.location.origin}/certificado/${codigo}`} size={100} />
 
-          <QRCode value={currentUrl} size={100} className="float-right" /> {/* QR code para a URL atual */}
+          {/*<QRCode value={currentUrl} size={100} className="float-right" />*/} {/* QR code para a URL atual */}
         </div>
         <div className="d-flex justify-content-center m-4">
           <h2><i>Certificado de Autenticidade</i></h2>
