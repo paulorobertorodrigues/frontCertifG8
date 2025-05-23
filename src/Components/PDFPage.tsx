@@ -39,37 +39,81 @@ function PDFPage() {
 
 
 
-  const generatePDF = () => {
-    const element = document.getElementById('todo');
+//   const generatePDF = () => {
+//     const element = document.getElementById('todo');
     
-    const button = document.getElementById('pdf-button');
-    if (button) { // Verifica se o botão não é null
-      button.style.display = 'none'; // Esconde o botão durante a geração do PDF
-    }
+//     const button = document.getElementById('pdf-button');
+//     if (button) { // Verifica se o botão não é null
+//       button.style.display = 'none'; // Esconde o botão durante a geração do PDF
+//     }
   
-    html2pdf()
-      .from(element)
-      .set({
-        margin: 1,
-        filename: `certificado-${codigo || id}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      })
-      .save()
-      .finally(() => {
-        if (button) { // Verifica novamente se o botão existe
-          button.style.display = 'block'; // Mostra o botão novamente após a geração
-        }
-      });
+//     html2pdf()
+//       .from(element)
+//       .set({
+//         margin: 1,
+//         filename: `certificado-${codigo || id}.pdf`,
+//         image: { type: 'jpeg', quality: 0.98 },
+//         html2canvas: { scale: 2 },
+//         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+//       })
+//       .save()
+//       .finally(() => {
+//         if (button) { // Verifica novamente se o botão existe
+//           button.style.display = 'block'; // Mostra o botão novamente após a geração
+//         }
+//       });
+//   };
+  
+
+const generatePDF = async () => {
+  const element = document.getElementById('todo');
+  const button = document.getElementById('pdf-button');
+  if (button) button.style.display = 'none';
+
+  const opt = {
+    margin: 1,
+    filename: `certificado-${codigo || id}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
-  
+
+  // Gerar PDF como blob
+  const worker = html2pdf().set(opt).from(element);
+  const pdfBlob = await worker.outputPdf('blob');
+
+  // Enviar PDF para o backend
+  const formData = new FormData();
+  formData.append('pdf', pdfBlob, `certificado-${codigo || id}.pdf`);
+  formData.append('codigo', codigo || id);
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/upload-pdf`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.url) {
+      alert('PDF gerado e enviado com sucesso!');
+      // Atualizar o QR code dinamicamente (exemplo: redirecionar ou exibir link)
+      window.open(data.url, '_blank'); // Abre o PDF online
+    } else {
+      alert('Erro ao enviar PDF: ' + (data.error || 'Erro desconhecido'));
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao enviar PDF.');
+  } finally {
+    if (button) button.style.display = 'block';
+  }
+};
 
 
 
 
-
-  const currentUrl = window.location.href; // URL atual da página com o ID
+const currentUrl = window.location.href; // URL atual da página com o ID
 
   return (
     <div className="container" id="todo">
@@ -137,3 +181,5 @@ function PDFPage() {
 }
 
 export default PDFPage;
+
+
