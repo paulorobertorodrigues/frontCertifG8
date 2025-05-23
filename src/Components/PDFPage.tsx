@@ -88,7 +88,7 @@ const generatePDF = async () => {
   formData.append('codigo', codigo || id);
 
   try {
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/upload-pdf`, {
+    const response = await fetch(`${process.env.VITE_API_URL}/upload-pdf`, {
       method: 'POST',
       body: formData
     });
@@ -113,10 +113,7 @@ const generatePDF = async () => {
 
 
 
-// const currentUrl = window.location.href; // URL atual da página com o ID
-
-const currentUrl = `${window.location.origin}/certificado/${codigo}`;
-
+const currentUrl = window.location.href; // URL atual da página com o ID
 
   return (
     <div className="container" id="todo">
