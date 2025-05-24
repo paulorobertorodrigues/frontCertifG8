@@ -138,9 +138,8 @@
 
 // export default PDFPage;
 
-
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Certificado';
 
@@ -152,36 +151,22 @@ import logoG8 from '../Images/logo_g8.png';
 import certifiedLogo from '../Images/certified.png';
 
 function PDFPage() {
-  const location = useLocation();
-  const { id } = useParams(); // ID ou código único da URL
+  const { id } = useParams(); // "id" corresponde ao código na URL
+  const [certificado, setCertificado] = useState(null);
 
-  // Estado local para armazenar os dados do certificado
-  const [certificado, setCertificado] = useState(() => {
-    // Tenta obter do location.state primeiro (caso tenha vindo do cadastro)
-    return location.state || null;
-  });
-
-  // Busca os dados do backend se location.state estiver ausente
+  // Buscar dados do certificado com base no código
   useEffect(() => {
-    if (!certificado) {
-      axios.get(`https://seusite.com/api/certificados/${id}`) // Altere para sua API real
-        .then(res => {
-          setCertificado(res.data);
-        })
-        .catch(err => {
-          console.error("Erro ao carregar certificado:", err);
-        });
-    }
-  }, [certificado, id]);
+    const fetchCertificado = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/certificado/codigo/${id}`);
+        setCertificado(res.data);
+      } catch (err) {
+        console.error("Erro ao buscar certificado:", err);
+      }
+    };
 
-  // Geração automática do PDF
-  useEffect(() => {
-    if (certificado) {
-      setTimeout(() => {
-        generatePDF();
-      }, 1000);
-    }
-  }, [certificado]);
+    fetchCertificado();
+  }, [id]);
 
   const generatePDF = () => {
     const element = document.getElementById('todo');
@@ -203,17 +188,19 @@ function PDFPage() {
       });
   };
 
-  if (!certificado) return <p className="text-center mt-5">Carregando certificado...</p>;
+  // Enquanto os dados não carregam
+  if (!certificado) {
+    return <div className="container mt-5 text-center">Carregando certificado...</div>;
+  }
 
-  const { data, revisao, codigo, validade, responsavel, registro } = certificado;
-  const qrCodeURL = `${import.meta.env.VITE_API_URL}/${codigo || id}`; // URL única
+  const qrCodeURL = `${window.location.origin}/certificado/${certificado.codigo}`;
 
   return (
     <div className="container" id="todo">
       <div className="card text-center">
         <div className="card-header d-flex justify-content-between align-items-center">
           <img src={logoG8} width="200" height="100" alt="Logo G8" />
-            <QRCode value={qrCodeURL} size={100} className="float-right" />
+          <QRCode value={qrCodeURL} size={100} className="float-right" />
         </div>
 
         <div className="d-flex justify-content-center m-4">
@@ -223,10 +210,10 @@ function PDFPage() {
         <div className="container text-center">
           <div className="row row-cols-2">
             <div className="col">
-              <p>Data da Elaboração do Documento <br /><strong>{new Date(data).toLocaleDateString('pt-BR')}</strong></p>
+              <p>Data da Elaboração do Documento<br /><strong>{new Date(certificado.data).toLocaleDateString('pt-BR')}</strong></p>
             </div>
             <div className="col">
-              <p>Revisão do Documento <br /><strong>{revisao}</strong></p>
+              <p>Revisão do Documento<br /><strong>{certificado.revisao}</strong></p>
             </div>
           </div>
         </div>
@@ -234,10 +221,10 @@ function PDFPage() {
         <div className="container text-center">
           <div className="row row-cols-2">
             <div className="col">
-              <p>Código do Documento<br /><strong>{codigo}</strong></p>
+              <p>Código do Documento<br /><strong>{certificado.codigo}</strong></p>
             </div>
             <div className="col">
-              <p>Validade<br /><strong>{new Date(validade).toLocaleDateString('pt-BR')}</strong></p>
+              <p>Validade<br /><strong>{new Date(certificado.validade).toLocaleDateString('pt-BR')}</strong></p>
             </div>
           </div>
         </div>
@@ -245,22 +232,28 @@ function PDFPage() {
         <div className="container text-center">
           <div className="row row-cols-2">
             <div className="col">
-              <p>Responsável Técnico<br /><strong>{responsavel}</strong></p>
+              <p>Responsável Técnico<br /><strong>{certificado.responsavel}</strong></p>
             </div>
             <div className="col">
-              <p>Registro Profissional<br /><strong>CREA: {registro}</strong></p>
+              <p>Registro Profissional<br /><strong>CREA: {certificado.registro}</strong></p>
             </div>
           </div>
-        </div><br /><br />
+        </div>
+
+        <br /><br />
 
         <div className="container custom-container">
           <div className="row row-cols-2">
             <div className="col custom-margin">
               <p className="mb-0"><strong>G8 Consultoria, Assessoria & Treinamento</strong></p>
               <div className="cnpj">
-                <p className="mb-0">CNPJ: 17.819.089/000115</p>
-                <p className="mb-0">Web-site: <a href="https://www.g8online.com.br" target="_blank" rel="noreferrer">https://www.g8online.com.br</a></p>
-                <p className="mb-0">E-mail: <a href="mailto:g8@g8online.com.br" target="_blank" rel="noreferrer">g8@g8online.com.br</a></p>
+                <p className="mb-0">CNPJ: 17.819.089/0001-15</p>
+                <p className="mb-0">
+                  Web-site: <a href="https://www.g8online.com.br" className="stretched-link" target="_blank" rel="noopener noreferrer">https://www.g8online.com.br</a>
+                </p>
+                <p className="mb-0">
+                  E-mail: <a href="mailto:g8@g8online.com.br" className="stretched-link" target="_blank" rel="noopener noreferrer">g8@g8online.com.br</a>
+                </p>
               </div>
             </div>
             <div className="col" id="logo-certified">
