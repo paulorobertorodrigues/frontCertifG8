@@ -39,31 +39,76 @@ function PDFPage() {
 
 
 
-  const generatePDF = () => {
-    const element = document.getElementById('todo');
+  // const generatePDF = () => {
+  //   const element = document.getElementById('todo');
     
-    const button = document.getElementById('pdf-button');
-    if (button) { // Verifica se o botão não é null
-      button.style.display = 'none'; // Esconde o botão durante a geração do PDF
-    }
+  //   const button = document.getElementById('pdf-button');
+  //   if (button) { // Verifica se o botão não é null
+  //     button.style.display = 'none'; // Esconde o botão durante a geração do PDF
+  //   }
   
-    html2pdf()
-      .from(element)
-      .set({
-        margin: 1,
-        filename: `certificado-${codigo || id}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      })
-      .save()
-      .finally(() => {
-        if (button) { // Verifica novamente se o botão existe
-          button.style.display = 'block'; // Mostra o botão novamente após a geração
-        }
-      });
+  //   html2pdf()
+  //     .from(element)
+  //     .set({
+  //       margin: 1,
+  //       filename: `certificado-${codigo || id}.pdf`,
+  //       image: { type: 'jpeg', quality: 0.98 },
+  //       html2canvas: { scale: 2 },
+  //       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+  //     })
+  //     .save()
+  //     .finally(() => {
+  //       if (button) { // Verifica novamente se o botão existe
+  //         button.style.display = 'block'; // Mostra o botão novamente após a geração
+  //       }
+  //     });
+  // };
+  
+const generatePDF = async () => {
+  const element = document.getElementById('todo');
+  const button = document.getElementById('pdf-button');
+
+  if (!element) return;
+  if (button) button.style.display = 'none';
+
+  const opt = {
+    margin: 1,
+    filename: `certificado-${codigo || id}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
   };
-  
+
+  try {
+    // Gera o PDF em blob
+    const worker = html2pdf().from(element).set(opt);
+    const pdfBlob = await worker.outputPdf('blob');
+
+    // Envia o PDF ao servidor
+    const formData = new FormData();
+    formData.append('file', pdfBlob, `certificado-${codigo || id}.pdf`);
+    formData.append('codigo', codigo || id); // usado como nome
+
+    const response = await fetch('http://SEU_BACKEND_PUBLICO/upload-certificado', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao enviar o PDF para o servidor');
+    }
+
+    alert('PDF salvo no servidor com sucesso!');
+
+    // Salva localmente
+    await worker.save();
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao gerar ou enviar o PDF.');
+  } finally {
+    if (button) button.style.display = 'block';
+  }
+};
 
 
 
