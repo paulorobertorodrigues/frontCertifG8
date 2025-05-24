@@ -89,7 +89,7 @@ const generatePDF = async () => {
     formData.append('file', pdfBlob, `certificado-${codigo || id}.pdf`);
     formData.append('codigo', codigo || id); // usado como nome
 
-    const response = await fetch('http://SEU_BACKEND_PUBLICO/upload-certificado', {
+    const response = await fetch('http://w8040ko08gcgcgksgwoc44co.82.25.75.74.sslip.io/upload-certificado', {
       method: 'POST',
       body: formData,
     });
