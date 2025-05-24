@@ -150,15 +150,30 @@ import axios from 'axios';
 import logoG8 from '../Images/logo_g8.png';
 import certifiedLogo from '../Images/certified.png';
 
+// Interface para o objeto certificado
+interface Certificado {
+  data: string;
+  revisao: string;
+  codigo: string;
+  validade: string;
+  responsavel: string;
+  registro: string;
+}
+
 function PDFPage() {
-  const { id } = useParams(); // "id" corresponde ao código na URL
-  const [certificado, setCertificado] = useState(null);
+  // Tipando useParams para que id seja string | undefined
+  const { id } = useParams<{ id: string }>();
+  
+  // Estado com tipo Certificado ou null (inicialmente null)
+  const [certificado, setCertificado] = useState<Certificado | null>(null);
 
   // Buscar dados do certificado com base no código
   useEffect(() => {
+    if (!id) return; // Proteção caso id seja undefined
+
     const fetchCertificado = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/certificado/codigo/${id}`);
+        const res = await axios.get<Certificado>(`${import.meta.env.VITE_API_URL}/certificado/codigo/${id}`);
         setCertificado(res.data);
       } catch (err) {
         console.error("Erro ao buscar certificado:", err);
@@ -174,7 +189,7 @@ function PDFPage() {
     if (button) button.style.display = 'none';
 
     html2pdf()
-      .from(element)
+      .from(element!)
       .set({
         margin: 1,
         filename: `certificado-${certificado?.codigo || id}.pdf`,
@@ -188,7 +203,6 @@ function PDFPage() {
       });
   };
 
-  // Enquanto os dados não carregam
   if (!certificado) {
     return <div className="container mt-5 text-center">Carregando certificado...</div>;
   }
