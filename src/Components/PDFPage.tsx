@@ -138,63 +138,82 @@
 
 // export default PDFPage;
 
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Certificado';
 
 import QRCode from "react-qr-code";
 import html2pdf from 'html2pdf.js';
+import axios from 'axios';
 
 import logoG8 from '../Images/logo_g8.png';
 import certifiedLogo from '../Images/certified.png';
 
 function PDFPage() {
   const location = useLocation();
-  const { id } = useParams(); // Captura o id ou código da URL
-  const { data, revisao, codigo, validade, responsavel, registro } = location.state || {};
+  const { id } = useParams(); // ID ou código único da URL
+
+  // Estado local para armazenar os dados do certificado
+  const [certificado, setCertificado] = useState(() => {
+    // Tenta obter do location.state primeiro (caso tenha vindo do cadastro)
+    return location.state || null;
+  });
+
+  // Busca os dados do backend se location.state estiver ausente
+  useEffect(() => {
+    if (!certificado) {
+      axios.get(`https://seusite.com/api/certificados/${id}`) // Altere para sua API real
+        .then(res => {
+          setCertificado(res.data);
+        })
+        .catch(err => {
+          console.error("Erro ao carregar certificado:", err);
+        });
+    }
+  }, [certificado, id]);
+
+  // Geração automática do PDF
+  useEffect(() => {
+    if (certificado) {
+      setTimeout(() => {
+        generatePDF();
+      }, 1000);
+    }
+  }, [certificado]);
 
   const generatePDF = () => {
     const element = document.getElementById('todo');
     const button = document.getElementById('pdf-button');
-    if (button) {
-      button.style.display = 'none';
-    }
+    if (button) button.style.display = 'none';
 
     html2pdf()
       .from(element)
       .set({
         margin: 1,
-        filename: `certificado-${codigo || id}.pdf`,
+        filename: `certificado-${certificado?.codigo || id}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       })
       .save()
       .finally(() => {
-        if (button) {
-          button.style.display = 'block';
-        }
+        if (button) button.style.display = 'block';
       });
   };
 
-  // 🔁 Geração automática do PDF ao carregar a página
-  useEffect(() => {
-    if (data && codigo) {
-      setTimeout(() => {
-        generatePDF();
-      }, 1000); // Pequeno delay para garantir que o conteúdo esteja renderizado
-    }
-  }, [data, codigo]);
+  if (!certificado) return <p className="text-center mt-5">Carregando certificado...</p>;
 
-  const currentUrl = window.location.href;
+  const { data, revisao, codigo, validade, responsavel, registro } = certificado;
+  const qrCodeURL = `${import.meta.env.VITE_API_URL}/${codigo || id}`; // URL única
 
   return (
     <div className="container" id="todo">
       <div className="card text-center">
         <div className="card-header d-flex justify-content-between align-items-center">
           <img src={logoG8} width="200" height="100" alt="Logo G8" />
-          <QRCode value={currentUrl} size={100} className="float-right" />
+            <QRCode value={qrCodeURL} size={100} className="float-right" />
         </div>
 
         <div className="d-flex justify-content-center m-4">
@@ -257,5 +276,3 @@ function PDFPage() {
 }
 
 export default PDFPage;
-
-
