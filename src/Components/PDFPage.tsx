@@ -174,7 +174,7 @@ function PDFPage() {
   };
 
   // ✅ URL segura baseada na env + id ou codigo
-  const qrCodeURL = `${import.meta.env.VITE_API_PUBLIC_URL || 'http://w8040ko08gcgcgksgwoc44co.82.25.75.74.sslip.io'}/pdf/${codigo || id}`;
+  const qrCodeURL = `${import.meta.env.VITE_API_PUBLIC_URL || 'http://zsowwk0g0g84s00kg0g04g4c.82.25.75.74.sslip.io'}/pdf/${codigo || id}`;
 
   return (
     <div className="container" id="todo">
